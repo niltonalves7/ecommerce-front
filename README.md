@@ -1,59 +1,93 @@
-# EcommerceFront
+# NEXO Sports — E-commerce Front-end
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Front-end de um e-commerce de camisas esportivas desenvolvido com Angular 17+ e Tailwind CSS, consumindo uma API REST construída com Spring Boot.
 
-## Development server
+## 🔗 Links
 
-To start a local development server, run:
+- **Front-end (Vercel):** em breve
+- **API (Railway):** https://e-commerce-production-48f9.up.railway.app
+- **Swagger:** https://e-commerce-production-48f9.up.railway.app/swagger-ui/index.html
+- **Repositório da API:** https://github.com/niltonalves7/e-commerce
+
+---
+
+## 🛠 Tecnologias
+
+- [Angular 17+](https://angular.dev) — framework front-end
+- [Tailwind CSS](https://tailwindcss.com) — estilização utilitária
+- [TypeScript](https://www.typescriptlang.org) — tipagem estática
+- [RxJS](https://rxjs.dev) — programação reativa
+- [Stripe.js](https://stripe.com/docs/js) — integração de pagamentos
+- [Vercel](https://vercel.com) — hospedagem do front-end
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+  app/
+    core/
+      guards/          # auth.guard, admin.guard
+      interceptors/    # api.interceptor (JWT)
+      models/          # interfaces e enums
+      services/        # auth, cart, category, order, product, user
+    features/
+      admin/           # dashboard, gerenciamento de produtos, categorias e pedidos
+      auth/            # login e cadastro
+      checkout/        # fluxo de pagamento com Stripe
+      home/            # página inicial
+      orders/          # listagem e detalhe de pedidos
+      product/         # listagem e detalhe de produtos
+      user/            # conta e painel do usuário
+    shared/
+      components/      # header, footer, cart-sidebar, confirm-modal
+  environments/        # configuração de ambiente
+```
+
+---
+
+## ⚙️ Como rodar localmente
+
+### Pré-requisitos
+
+- Node.js 18+
+- Angular CLI
 
 ```bash
+npm install -g @angular/cli
+```
+
+### Instalação
+
+```bash
+# Clone o repositório
+git clone https://github.com/niltonalves7/ecommerce-front.git
+cd ecommerce-front
+
+# Instale as dependências
+npm install
+
+# Inicie o servidor de desenvolvimento
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Acesse `http://localhost:4200`
 
-## Code scaffolding
+> A API precisa estar rodando para o front funcionar. Siga as instruções no [repositório da API](https://github.com/niltonalves7/e-commerce) para subir localmente com Docker.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
+## 🚀 Deploy
+
+O front-end é hospedado no **Vercel** com integração contínua ao GitHub. A cada push na branch `main` um novo deploy é gerado automaticamente.
+
+O arquivo `vercel.json` na raiz garante o correto funcionamento do roteamento SPA:
+
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
