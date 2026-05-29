@@ -1,0 +1,48 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+
+    <h1 class="text-2xl font-medium text-gray-900 mb-8">Meus Pedidos</h1>
+
+    @if (isLoading) {
+        <div class="flex justify-center items-center h-48">
+            <p class="text-gray-400 text-sm">Carregando pedidos...</p>
+        </div>
+    }
+
+    @if ((orders$ | async); as orders) {
+        @if (orders.length === 0) {
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+                <svg class="w-12 h-12 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <p class="text-gray-400 text-sm">Você ainda não tem pedidos</p>
+            </div>
+        } @else {
+            <div class="space-y-4">
+                @for (order of orders; track order.id) {
+                    <div (click)="verDetalhe(order.id)"
+                         class="bg-white border border-gray-100 rounded-2xl p-6 cursor-pointer
+                                hover:shadow-md transition-shadow duration-200">
+
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-xs text-gray-950 font-bold">Pedido</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium {{ getStatusColor(order.status) }}">
+                                {{ getStatusLabel(order.status) }}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-gray-600">{{ order.items.length }} {{ order.items.length === 1 ? 'item' : 'itens' }}</p>
+                                <p class="text-xs text-gray-950 mt-1">{{ order.createdAt | date:'dd/MM/yyyy' }}</p>
+                            </div>
+                            <p class="text-lg font-medium text-gray-900">{{ order.totalAmount | currency:'BRL' }}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
