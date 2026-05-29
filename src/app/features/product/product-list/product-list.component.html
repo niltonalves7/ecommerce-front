@@ -1,0 +1,50 @@
+@if (isLoading) {
+    <div class="flex justify-center items-center h-64">
+        <p class="text-gray-500">Carregando produtos...</p>
+    </div>
+}
+
+@if (errorMessage) {
+    <div class="text-center py-16">
+        <p class="text-red-500">{{ errorMessage }}</p>
+    </div>
+}
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+    @for (product of products$ | async; track product.id) {
+        <div (click)="verDetalhe(product.id)"
+             class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden">
+
+            <div class="h-48 bg-gray-100 overflow-hidden">
+                <img [src]="product.imageUrl || 'assets/placeholder.png'"
+                     [alt]="product.name"
+                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"/>
+            </div>
+
+            <div class="p-4">
+                <p class="text-xs text-gray-400 uppercase tracking-wide">{{ product.category?.name }}</p>
+                <h3 class="text-sm font-semibold text-gray-800 truncate mt-1">{{ product.name }}</h3>
+                <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ product.description }}</p>
+
+                <div class="flex items-center justify-between mt-4">
+                    <span class="text-lg font-bold text-gray-900">
+                        {{ product.price | currency:'BRL' }}
+                    </span>
+                    <button (click)="addToCart($event, product)"
+                            [disabled]="product.stockQuantity === 0"
+                            class="px-3 py-1.5 text-xs font-semibold text-white bg-black rounded-lg
+                                   hover:bg-gray-800 transition-colors active:scale-95
+                                   disabled:bg-gray-300 disabled:cursor-not-allowed">
+                        {{ product.stockQuantity === 0 ? 'Esgotado' : 'Comprar' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if ((products$ | async)?.length === 0 && !isLoading) {
+    <div class="flex flex-col items-center justify-center py-16">
+        <p class="text-gray-500 font-medium">Nenhum produto encontrado</p>
+    </div>
+}
